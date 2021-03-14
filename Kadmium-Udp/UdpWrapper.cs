@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Kadmium_Osc
+namespace Kadmium_Udp
 {
 	public class UdpWrapper : IUdpWrapper, IDisposable
 	{
