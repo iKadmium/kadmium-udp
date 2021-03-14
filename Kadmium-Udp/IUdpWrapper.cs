@@ -5,9 +5,9 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kadmium_Osc
+namespace Kadmium_Udp
 {
-	internal interface IUdpWrapper : IDisposable
+	public interface IUdpWrapper : IDisposable
 	{
 		event EventHandler<UdpReceiveResult> OnPacketReceived;
 		void Listen(string hostname, int port = 0);
