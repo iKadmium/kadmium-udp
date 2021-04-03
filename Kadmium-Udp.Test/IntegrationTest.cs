@@ -48,5 +48,30 @@ namespace Kadmium_Udp.Test
 			var hostEntry = await Dns.GetHostEntryAsync(Dns.GetHostName());
 			Assert.Contains(hostEntry.AddressList, x => x.Equals(endpoint.Address));
 		}
+
+		[Fact]
+		public async Task Given_TheServerIsListening_When_JoinMulticastGroupIsCalled_Then_TheMulticastGroupIsJoined()
+		{
+			byte[] expected = System.Text.Encoding.UTF8.GetBytes("Hello");
+			byte[] actual = null;
+
+			using var server = new UdpWrapper();
+			server.OnPacketReceived += (object sender, UdpReceiveResult result) =>
+			{
+				actual = result.Buffer;
+			};
+
+			var multicastGroup = new IPAddress(new byte[] { 239, 255, 128, 128 });
+
+			server.Listen();
+			server.JoinMulticastGroup(multicastGroup);
+			int port = server.HostEndPoint.Port;
+
+			using var client = new UdpWrapper();
+			await client.Send(multicastGroup.ToString(), port, expected);
+			await Task.Delay(1000);
+
+			Assert.Equal(expected, actual);
+		}
 	}
 }
