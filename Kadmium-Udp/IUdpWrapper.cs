@@ -13,5 +13,6 @@ namespace Kadmium_Udp
 		void Listen(string hostname, int port = 0);
 		void Listen(int port = 0);
 		Task Send(string hostname, int port, ReadOnlyMemory<byte> packet);
+		void JoinMulticastGroup(IPAddress address);
 	}
 }

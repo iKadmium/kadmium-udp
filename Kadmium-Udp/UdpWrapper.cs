@@ -52,5 +52,14 @@ namespace Kadmium_Udp
 			TokenSource?.Cancel();
 			Client?.Dispose();
 		}
+
+		public void JoinMulticastGroup(IPAddress address)
+		{
+			if (Client == null)
+			{
+				throw new InvalidOperationException("Listen must be called before joining a multicast group");
+			}
+			Client.JoinMulticastGroup(address);
+		}
 	}
 }
