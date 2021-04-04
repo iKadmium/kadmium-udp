@@ -29,9 +29,9 @@ namespace Kadmium_Udp
 			});
 		}
 
-		public void Listen(string hostname, int port = 0)
+		public void Listen(IPEndPoint endPoint)
 		{
-			UdpClient = new UdpClient(hostname, port);
+			UdpClient = new UdpClient(endPoint);
 			SetupEvents();
 		}
 

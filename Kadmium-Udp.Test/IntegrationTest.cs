@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -31,10 +32,12 @@ namespace Kadmium_Udp.Test
 		}
 
 		[Fact]
-		public void Given_TheServerIsStartedOnAHostNameEndpoint_When_EndpointIsQueried_Then_ThePortIsSet()
+		public async Task Given_TheServerIsStartedOnAnIPEndpoint_When_EndpointIsQueried_Then_ThePortIsSet()
 		{
 			using UdpWrapper server = new UdpWrapper();
-			server.Listen(Dns.GetHostName());
+			var hostname = Dns.GetHostName();
+			var addresses = await Dns.GetHostAddressesAsync(hostname);
+			server.Listen(new IPEndPoint(addresses.First(), 0));
 			var endpoint = server.HostEndPoint;
 			Assert.NotEqual(0, endpoint.Port);
 		}
@@ -43,10 +46,11 @@ namespace Kadmium_Udp.Test
 		public async Task Given_TheServerIsStartedOnAHostNameEndpoint_When_EndpointIsQueried_Then_TheAddressIsSet()
 		{
 			using UdpWrapper server = new UdpWrapper();
-			server.Listen(Dns.GetHostName());
+			var hostname = Dns.GetHostName();
+			var addresses = await Dns.GetHostAddressesAsync(hostname);
+			server.Listen(new IPEndPoint(addresses.First(), 0));
 			var endpoint = server.HostEndPoint;
-			var hostEntry = await Dns.GetHostEntryAsync(Dns.GetHostName());
-			Assert.Contains(hostEntry.AddressList, x => x.Equals(endpoint.Address));
+			Assert.Equal(addresses.First(), endpoint.Address);
 		}
 
 		[Fact]
