@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -35,16 +36,10 @@ namespace Kadmium_Udp
 			SetupEvents();
 		}
 
-		public void Listen(int port = 0)
+		public async Task Send(IPEndPoint endPoint, ReadOnlyMemory<byte> bytes)
 		{
-			UdpClient = new UdpClient(port);
-			SetupEvents();
-		}
-
-		public async Task Send(string hostname, int port, ReadOnlyMemory<byte> bytes)
-		{
-			UdpClient = new UdpClient();
-			await UdpClient.SendAsync(bytes.ToArray(), bytes.Span.Length, hostname, port);
+			UdpClient = new UdpClient(endPoint.AddressFamily);
+			await UdpClient.SendAsync(bytes.ToArray(), bytes.Span.Length, endPoint);
 		}
 
 		public void Dispose()
