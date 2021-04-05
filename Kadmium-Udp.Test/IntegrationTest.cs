@@ -10,7 +10,7 @@ namespace Kadmium_Udp.Test
 	public class IntegrationTest
 	{
 		[Fact]
-		public async Task Given_TheServerAndClientAreBothStartedOnTheSamePort_When_TheClientSendsAPacket_Then_ThePacketIsReceived()
+		public async Task Given_TheServerAndClientAreBothStartedOnTheSamePortInIPV4_When_TheClientSendsAPacket_Then_ThePacketIsReceived()
 		{
 			byte[] expected = System.Text.Encoding.UTF8.GetBytes("Hello");
 			byte[] actual = null;
@@ -21,12 +21,15 @@ namespace Kadmium_Udp.Test
 				actual = result.Buffer;
 			};
 
-			server.Listen();
+			server.Listen(new IPEndPoint(IPAddress.IPv6Any, 0));
 			int port = server.HostEndPoint.Port;
 
 			using UdpWrapper client = new UdpWrapper();
-			await client.Send(Dns.GetHostName(), port, expected);
-			await Task.Delay(1000);
+			var hostname = Dns.GetHostName();
+			var addresses = await Dns.GetHostAddressesAsync(hostname);
+			var address = addresses.First(x => x.AddressFamily == AddressFamily.InterNetworkV6);
+			await client.Send(new IPEndPoint(address, port) , expected);
+			await Task.Delay(250);
 
 			Assert.Equal(expected, actual);
 		}
@@ -67,12 +70,12 @@ namespace Kadmium_Udp.Test
 
 			var multicastGroup = new IPAddress(new byte[] { 239, 255, 128, 128 });
 
-			server.Listen();
+			server.Listen(new IPEndPoint(IPAddress.Any, 0));
 			server.JoinMulticastGroup(multicastGroup);
 			int port = server.HostEndPoint.Port;
 
 			using var client = new UdpWrapper();
-			await client.Send(multicastGroup.ToString(), port, expected);
+			await client.Send(new IPEndPoint(multicastGroup, port), expected);
 			await Task.Delay(1000);
 
 			Assert.Equal(expected, actual);
