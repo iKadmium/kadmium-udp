@@ -13,6 +13,7 @@ namespace Kadmium_Udp
 		void Listen(IPEndPoint endPoint);
 		Task Send(IPEndPoint endPoint, ReadOnlyMemory<byte> packet);
 		void JoinMulticastGroup(IPAddress address);
+		void DropMulticastGroup(IPAddress address);
 		IPEndPoint HostEndPoint { get; }
 	}
 }
