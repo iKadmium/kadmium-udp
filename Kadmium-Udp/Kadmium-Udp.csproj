@@ -6,16 +6,16 @@
   </PropertyGroup>
 
   <PropertyGroup>
-	  <Title>Kadmium UDP</Title>
-	  <Description>A fairly lightweight event-based wrapper around the .Net Standard UDP functionality</Description>
-	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
-	  <Version>1.0.0</Version>
-	  <Authors>Jesse Higginson</Authors>
-	  <PackageProjectUrl>https://github.com/iKadmium/kadmium-udp</PackageProjectUrl>
-	  <RepositoryUrl>https://github.com/iKadmium/kadmium-udp.git</RepositoryUrl>
+    <Title>Kadmium UDP</Title>
+    <Description>A fairly lightweight event-based wrapper around the .Net Standard UDP functionality</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Version>1.0.1</Version>
+    <Authors>Jesse Higginson</Authors>
+    <PackageProjectUrl>https://github.com/iKadmium/kadmium-udp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/iKadmium/kadmium-udp.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
-	
+
   <ItemGroup>
     <PackageReference Include="System.Memory" Version="4.5.4" />
   </ItemGroup>

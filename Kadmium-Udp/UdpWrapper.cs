@@ -56,5 +56,14 @@ namespace Kadmium_Udp
 			}
 			UdpClient.JoinMulticastGroup(address);
 		}
+
+		public void DropMulticastGroup(IPAddress address)
+		{
+			if (UdpClient == null)
+			{
+				throw new InvalidOperationException("Listen must be called before leaving a multicast group");
+			}
+			UdpClient.DropMulticastGroup(address);
+		}
 	}
 }

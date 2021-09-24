@@ -16,5 +16,12 @@ namespace Kadmium_Udp.Test
 			UdpWrapper wrapper = new UdpWrapper();
 			Assert.Throws<InvalidOperationException>(() => wrapper.JoinMulticastGroup(IPAddress.Parse("127.0.0.1")));
 		}
+
+		[Fact]
+		public void Given_ListenHasNotYetBeenCalled_When_DropMulticastGroupIsCalled_Then_AnExceptionIsThrown()
+		{
+			UdpWrapper wrapper = new UdpWrapper();
+			Assert.Throws<InvalidOperationException>(() => wrapper.DropMulticastGroup(IPAddress.Parse("127.0.0.1")));
+		}
 	}
 }
