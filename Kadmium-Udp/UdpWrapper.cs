@@ -36,10 +36,16 @@ namespace Kadmium_Udp
 			SetupEvents();
 		}
 
-		public async Task Send(IPEndPoint endPoint, ReadOnlyMemory<byte> bytes)
+		public async Task Send(IPEndPoint remoteEndPoint, ReadOnlyMemory<byte> bytes)
 		{
-			UdpClient = new UdpClient(endPoint.AddressFamily);
-			await UdpClient.SendAsync(bytes.ToArray(), bytes.Span.Length, endPoint);
+			UdpClient = new UdpClient(remoteEndPoint.AddressFamily);
+			await UdpClient.SendAsync(bytes.ToArray(), bytes.Span.Length, remoteEndPoint);
+		}
+
+		public async Task Send(IPEndPoint remoteEndPoint, IPEndPoint localEndPoint, ReadOnlyMemory<byte> bytes)
+		{
+			UdpClient = new UdpClient(localEndPoint);
+			await UdpClient.SendAsync(bytes.ToArray(), bytes.Span.Length, remoteEndPoint);
 		}
 
 		public void Dispose()
