@@ -11,7 +11,8 @@ namespace Kadmium_Udp
 	{
 		event EventHandler<UdpReceiveResult> OnPacketReceived;
 		void Listen(IPEndPoint endPoint);
-		Task Send(IPEndPoint endPoint, ReadOnlyMemory<byte> packet);
+		Task Send(IPEndPoint remoteEndPoint, ReadOnlyMemory<byte> packet);
+		Task Send(IPEndPoint remoteEndPoint, IPEndPoint localEndPoint, ReadOnlyMemory<byte> packet);
 		void JoinMulticastGroup(IPAddress address);
 		void DropMulticastGroup(IPAddress address);
 		IPEndPoint HostEndPoint { get; }

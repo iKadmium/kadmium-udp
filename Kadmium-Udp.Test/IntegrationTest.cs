@@ -112,5 +112,30 @@ namespace Kadmium_Udp.Test
 
 			Assert.NotEqual(unexpected, actual);
 		}
+
+		[Fact]
+		public async Task Given_TheServerAndClientAreBothStartedOnTheSamePortInIPV4_When_TheClientSendsAPacketWithASpecifiedEndpoint_Then_ThePacketIsReceivedFromThatEndpoint()
+		{
+			int expectedSourcePort = 45545;
+			int actualSourcePort = -1;
+
+			using UdpWrapper server = new UdpWrapper();
+			server.OnPacketReceived += (object sender, UdpReceiveResult result) =>
+			{
+				actualSourcePort = result.RemoteEndPoint.Port;
+			};
+
+			server.Listen(new IPEndPoint(IPAddress.Any, 0));
+			int port = server.HostEndPoint.Port;
+
+			using UdpWrapper client = new UdpWrapper();
+			var hostname = Dns.GetHostName();
+			var addresses = await Dns.GetHostAddressesAsync(hostname);
+			var address = addresses.First(x => x.AddressFamily == AddressFamily.InterNetwork);
+			await client.Send(new IPEndPoint(address, port), new IPEndPoint(address, expectedSourcePort), new byte[] { 1, 2, 3, 4 });
+			await Task.Delay(250);
+
+			Assert.Equal(expectedSourcePort, actualSourcePort);
+		}
 	}
 }
