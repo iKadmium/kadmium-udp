@@ -32,19 +32,28 @@ namespace Kadmium_Udp
 
 		public void Listen(IPEndPoint endPoint)
 		{
-			UdpClient = new UdpClient(endPoint);
+			if (UdpClient == null)
+			{
+				UdpClient = new UdpClient(endPoint);
+			}
 			SetupEvents();
 		}
 
 		public async Task Send(IPEndPoint remoteEndPoint, ReadOnlyMemory<byte> bytes)
 		{
-			UdpClient = new UdpClient(remoteEndPoint.AddressFamily);
+			if (UdpClient == null)
+			{
+				UdpClient = new UdpClient(remoteEndPoint.AddressFamily);
+			}
 			await UdpClient.SendAsync(bytes.ToArray(), bytes.Span.Length, remoteEndPoint);
 		}
 
 		public async Task Send(IPEndPoint remoteEndPoint, IPEndPoint localEndPoint, ReadOnlyMemory<byte> bytes)
 		{
-			UdpClient = new UdpClient(localEndPoint);
+			if (UdpClient == null)
+			{
+				UdpClient = new UdpClient(localEndPoint);
+			}
 			await UdpClient.SendAsync(bytes.ToArray(), bytes.Span.Length, remoteEndPoint);
 		}
 
