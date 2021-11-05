@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Kadmium_Udp
 {
-	public interface IUdpPipeline
+	public interface IUdpPipeline : IDisposable
 	{
 		IPEndPoint LocalEndPoint { get; }
 		IPEndPoint RemoteEndPoint { get; }

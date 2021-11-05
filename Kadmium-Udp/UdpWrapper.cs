@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Kadmium_Udp
 {
-	public class UdpWrapper : IUdpWrapper, IDisposable
+	public class UdpWrapper : IUdpWrapper
 	{
 		private UdpClient UdpClient { get; set; }
 		private CancellationTokenSource TokenSource { get; set; }
