@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>Kadmium_Udp</RootNamespace>
   </PropertyGroup>
 
@@ -9,7 +9,7 @@
     <Title>Kadmium UDP</Title>
     <Description>A fairly lightweight event-based wrapper around the .Net Standard UDP functionality</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.0.3</Version>
+    <Version>1.1.0</Version>
     <Authors>Jesse Higginson</Authors>
     <PackageProjectUrl>https://github.com/iKadmium/kadmium-udp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/iKadmium/kadmium-udp.git</RepositoryUrl>
@@ -17,6 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.IO.Pipelines" Version="5.0.1" />
     <PackageReference Include="System.Memory" Version="4.5.4" />
   </ItemGroup>
 
