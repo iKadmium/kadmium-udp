@@ -9,7 +9,7 @@
     <Title>Kadmium UDP</Title>
     <Description>A fairly lightweight event-based wrapper around the .Net Standard UDP functionality</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>2.0.0</Version>
+    <Version>1.1.0</Version>
     <Authors>Jesse Higginson</Authors>
     <PackageProjectUrl>https://github.com/iKadmium/kadmium-udp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/iKadmium/kadmium-udp.git</RepositoryUrl>
