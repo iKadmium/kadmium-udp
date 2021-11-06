@@ -139,6 +139,25 @@ namespace Kadmium_Udp.Test
 		}
 
 		[Fact]
+		public async Task Given_AnIPV4Address_When_JoinMultiCastGroupIsCalled_Then_NoExceptionIsThrown()
+		{
+			var hostname = Dns.GetHostName();
+			var addresses = await Dns.GetHostAddressesAsync(hostname);
+			var address = addresses.First(x => x.AddressFamily == AddressFamily.InterNetwork);
+			var remoteAddress = IPAddress.Parse($"239.255.0.1");
+
+			var endpoint = new IPEndPoint(address, 0);
+			byte[] expected = new byte[] { 1, 2, 3, 4 };
+
+			using UdpPipeline sockPipe = new UdpPipeline(AddressFamily.InterNetwork);
+			var pipe = new Pipe();
+
+			var listenTask = sockPipe.ListenAsync(pipe.Writer, endpoint);
+			sockPipe.JoinMulticastGroup(remoteAddress);
+			sockPipe.DropMulticastGroup(remoteAddress);
+		}
+
+		[Fact]
 		public async Task Given_AnIPV6Address_When_JoinMultiCastGroupIsCalled_Then_NoExceptionIsThrown()
 		{
 			var hostname = Dns.GetHostName();
