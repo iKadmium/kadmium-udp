@@ -144,6 +144,7 @@ namespace Kadmium_Udp.Test
 			var hostname = Dns.GetHostName();
 			var addresses = await Dns.GetHostAddressesAsync(hostname);
 			var address = addresses.First(x => x.AddressFamily == AddressFamily.InterNetworkV6);
+			var remoteAddress = IPAddress.Parse($"FF18::83:00:00:01");
 
 			var endpoint = new IPEndPoint(address, 0);
 			byte[] expected = new byte[] { 1, 2, 3, 4 };
@@ -152,7 +153,8 @@ namespace Kadmium_Udp.Test
 			var pipe = new Pipe();
 
 			var listenTask = sockPipe.ListenAsync(pipe.Writer, endpoint);
-			sockPipe.JoinMulticastGroup(IPAddress.Parse($"FF18::83:00:00:01"));
+			sockPipe.JoinMulticastGroup(remoteAddress);
+			sockPipe.DropMulticastGroup(remoteAddress);
 		}
 	}
 }
