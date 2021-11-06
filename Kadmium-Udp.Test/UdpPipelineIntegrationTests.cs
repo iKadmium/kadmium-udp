@@ -137,5 +137,22 @@ namespace Kadmium_Udp.Test
 
 			Assert.Equal(expected, result.Buffer.First.ToArray());
 		}
+
+		[Fact]
+		public async Task Given_AnIPV6Address_When_JoinMultiCastGroupIsCalled_Then_NoExceptionIsThrown()
+		{
+			var hostname = Dns.GetHostName();
+			var addresses = await Dns.GetHostAddressesAsync(hostname);
+			var address = addresses.First(x => x.AddressFamily == AddressFamily.InterNetworkV6);
+
+			var endpoint = new IPEndPoint(address, 0);
+			byte[] expected = new byte[] { 1, 2, 3, 4 };
+
+			using UdpPipeline sockPipe = new UdpPipeline(AddressFamily.InterNetworkV6);
+			var pipe = new Pipe();
+
+			var listenTask = sockPipe.ListenAsync(pipe.Writer, endpoint);
+			sockPipe.JoinMulticastGroup(IPAddress.Parse($"FF18::83:00:00:01"));
+		}
 	}
 }
