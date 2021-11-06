@@ -25,7 +25,7 @@ namespace Kadmium_Udp
 
 		public void JoinMulticastGroup(IPAddress address)
 		{
-			MulticastOption multicastOption = new MulticastOption(address, LocalEndPoint.Address);
+			var multicastOption = new IPv6MulticastOption(address);
 			var socketOptionLevel = address.AddressFamily == AddressFamily.InterNetwork ? SocketOptionLevel.IP : SocketOptionLevel.IPv6;
 			Socket.SetSocketOption(socketOptionLevel, SocketOptionName.AddMembership, multicastOption);
 		}
