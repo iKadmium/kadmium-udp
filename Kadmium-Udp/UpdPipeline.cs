@@ -25,16 +25,52 @@ namespace Kadmium_Udp
 
 		public void JoinMulticastGroup(IPAddress address)
 		{
-			MulticastOption multicastOption = new MulticastOption(address, LocalEndPoint.Address);
-			var socketOptionLevel = address.AddressFamily == AddressFamily.InterNetwork ? SocketOptionLevel.IP : SocketOptionLevel.IPv6;
-			Socket.SetSocketOption(socketOptionLevel, SocketOptionName.AddMembership, multicastOption);
+			switch (address.AddressFamily)
+			{
+				case AddressFamily.InterNetwork:
+					JoinMulticastGroupIPv4(address);
+					break;
+				case AddressFamily.InterNetworkV6:
+					JoinMulticastGroupIPv6(address);
+					break;
+			}
+		}
+
+		private void JoinMulticastGroupIPv6(IPAddress address)
+		{
+			var multicastOption = new IPv6MulticastOption(address);
+			Socket.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.AddMembership, multicastOption);
+		}
+
+		private void JoinMulticastGroupIPv4(IPAddress address)
+		{
+			var multicastOption = new MulticastOption(address, LocalEndPoint.Address);
+			Socket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.AddMembership, multicastOption);
 		}
 
 		public void DropMulticastGroup(IPAddress address)
 		{
-			MulticastOption multicastOption = new MulticastOption(address, LocalEndPoint.Address);
-			var socketOptionLevel = address.AddressFamily == AddressFamily.InterNetwork ? SocketOptionLevel.IP : SocketOptionLevel.IPv6;
-			Socket.SetSocketOption(socketOptionLevel, SocketOptionName.DropMembership, multicastOption);
+			switch (address.AddressFamily)
+			{
+				case AddressFamily.InterNetwork:
+					DropMulticastGroupIPv4(address);
+					break;
+				case AddressFamily.InterNetworkV6:
+					DropMulticastGroupIPv6(address);
+					break;
+			}
+		}
+
+		private void DropMulticastGroupIPv6(IPAddress address)
+		{
+			var multicastOption = new IPv6MulticastOption(address);
+			Socket.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.DropMembership, multicastOption);
+		}
+
+		private void DropMulticastGroupIPv4(IPAddress address)
+		{
+			var multicastOption = new MulticastOption(address, LocalEndPoint.Address);
+			Socket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.DropMembership, multicastOption);
 		}
 
 		public async Task ListenAsync(PipeWriter writer, IPEndPoint localEndpoint)
