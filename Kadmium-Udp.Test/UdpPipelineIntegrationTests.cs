@@ -48,7 +48,7 @@ namespace Kadmium_Udp.Test
 			var pipe = new Pipe();
 
 			var listenTask = sockPipe.ListenAsync(pipe.Writer, endpoint);
-			UdpClient client = new UdpClient();
+			UdpClient client = new UdpClient(AddressFamily.InterNetworkV6);
 			await client.SendAsync(expected, expected.Length, sockPipe.LocalEndPoint);
 			var result = await pipe.Reader.ReadAsync();
 
