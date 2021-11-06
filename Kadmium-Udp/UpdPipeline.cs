@@ -26,13 +26,15 @@ namespace Kadmium_Udp
 		public void JoinMulticastGroup(IPAddress address)
 		{
 			MulticastOption multicastOption = new MulticastOption(address, LocalEndPoint.Address);
-			Socket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.AddMembership, multicastOption);
+			var socketOptionLevel = address.AddressFamily == AddressFamily.InterNetwork ? SocketOptionLevel.IP : SocketOptionLevel.IPv6;
+			Socket.SetSocketOption(socketOptionLevel, SocketOptionName.AddMembership, multicastOption);
 		}
 
 		public void DropMulticastGroup(IPAddress address)
 		{
 			MulticastOption multicastOption = new MulticastOption(address, LocalEndPoint.Address);
-			Socket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.DropMembership, multicastOption);
+			var socketOptionLevel = address.AddressFamily == AddressFamily.InterNetwork ? SocketOptionLevel.IP : SocketOptionLevel.IPv6;
+			Socket.SetSocketOption(socketOptionLevel, SocketOptionName.DropMembership, multicastOption);
 		}
 
 		public async Task ListenAsync(PipeWriter writer, IPEndPoint localEndpoint)
@@ -40,7 +42,8 @@ namespace Kadmium_Udp
 			var token = CancellationTokenSource.Token;
 
 			const int minimumBufferSize = 512;
-			Socket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.ReuseAddress, true);
+			var socketOptionLevel = localEndpoint.AddressFamily == AddressFamily.InterNetwork ? SocketOptionLevel.IP : SocketOptionLevel.IPv6;
+			Socket.SetSocketOption(socketOptionLevel, SocketOptionName.ReuseAddress, true);
 			if (!Socket.IsBound)
 			{
 				Socket.Bind(localEndpoint);

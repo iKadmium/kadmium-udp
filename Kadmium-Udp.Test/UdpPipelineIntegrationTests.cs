@@ -34,28 +34,28 @@ namespace Kadmium_Udp.Test
 			Assert.Equal(expected, actual);
 		}
 
-		// [Fact]
-		// public async Task Given_AnIPV6Address_When_ListenAsyncIsCalled_Then_ItListensForPacketsOnTheEndpoint()
-		// {
-		// 	var hostname = Dns.GetHostName();
-		// 	var addresses = await Dns.GetHostAddressesAsync(hostname);
-		// 	var address = addresses.First(x => x.AddressFamily == AddressFamily.InterNetworkV6);
+		[Fact]
+		public async Task Given_AnIPV6Address_When_ListenAsyncIsCalled_Then_ItListensForPacketsOnTheEndpoint()
+		{
+			var hostname = Dns.GetHostName();
+			var addresses = await Dns.GetHostAddressesAsync(hostname);
+			var address = addresses.First(x => x.AddressFamily == AddressFamily.InterNetworkV6);
 
-		// 	var endpoint = new IPEndPoint(address, 0);
-		// 	byte[] expected = new byte[] { 1, 2, 3, 4 };
+			var endpoint = new IPEndPoint(address, 0);
+			byte[] expected = new byte[] { 1, 2, 3, 4 };
 
-		// 	UdpPipeline sockPipe = new UdpPipeline(AddressFamily.InterNetworkV6);
-		// 	var pipe = new Pipe();
+			UdpPipeline sockPipe = new UdpPipeline(AddressFamily.InterNetworkV6);
+			var pipe = new Pipe();
 
-		// 	var listenTask = sockPipe.ListenAsync(pipe.Writer, endpoint);
-		// 	UdpClient client = new UdpClient();
-		// 	await client.SendAsync(expected, expected.Length, sockPipe.LocalEndPoint);
-		// 	var result = await pipe.Reader.ReadAsync();
+			var listenTask = sockPipe.ListenAsync(pipe.Writer, endpoint);
+			UdpClient client = new UdpClient(AddressFamily.InterNetworkV6);
+			await client.SendAsync(expected, expected.Length, sockPipe.LocalEndPoint);
+			var result = await pipe.Reader.ReadAsync();
 
-		// 	var actual = result.Buffer.FirstSpan.ToArray();
+			var actual = result.Buffer.FirstSpan.ToArray();
 
-		// 	Assert.Equal(expected, actual);
-		// }
+			Assert.Equal(expected, actual);
+		}
 
 		[Fact]
 		public async Task Given_AnIPV4Address_When_SendAsyncIsCalled_Then_ItSendsPacketsToTheEndpoint()
@@ -81,29 +81,29 @@ namespace Kadmium_Udp.Test
 			Assert.Equal(expected, actual);
 		}
 
-		// [Fact]
-		// public async Task Given_AnIPV6Address_When_SendAsyncIsCalled_Then_ItSendsPacketsToTheEndpoint()
-		// {
-		// 	var hostname = Dns.GetHostName();
-		// 	var addresses = await Dns.GetHostAddressesAsync(hostname);
-		// 	var address = addresses.First(x => x.AddressFamily == AddressFamily.InterNetworkV6);
+		[Fact]
+		public async Task Given_AnIPV6Address_When_SendAsyncIsCalled_Then_ItSendsPacketsToTheEndpoint()
+		{
+			var hostname = Dns.GetHostName();
+			var addresses = await Dns.GetHostAddressesAsync(hostname);
+			var address = addresses.First(x => x.AddressFamily == AddressFamily.InterNetworkV6);
 
-		// 	var endpoint = new IPEndPoint(address, 0);
-		// 	byte[] expected = new byte[] { 1, 2, 3, 4 };
+			var endpoint = new IPEndPoint(address, 0);
+			byte[] expected = new byte[] { 1, 2, 3, 4 };
 
-		// 	UdpPipeline sockPipe = new UdpPipeline(AddressFamily.InterNetworkV6);
-		// 	var pipe = new Pipe();
+			UdpPipeline sockPipe = new UdpPipeline(AddressFamily.InterNetworkV6);
+			var pipe = new Pipe();
 
-		// 	await pipe.Writer.WriteAsync(expected);
+			await pipe.Writer.WriteAsync(expected);
 
-		// 	UdpClient client = new UdpClient(endpoint);
-		// 	var receiveTask = client.ReceiveAsync();
-		// 	var sendTask = sockPipe.SendAsync(pipe.Reader, client.Client.LocalEndPoint as IPEndPoint);
-		// 	var result = await receiveTask;
-		// 	var actual = result.Buffer;
+			UdpClient client = new UdpClient(endpoint);
+			var receiveTask = client.ReceiveAsync();
+			var sendTask = sockPipe.SendAsync(pipe.Reader, client.Client.LocalEndPoint as IPEndPoint);
+			var result = await receiveTask;
+			var actual = result.Buffer;
 
-		// 	Assert.Equal(expected, actual);
-		// }
+			Assert.Equal(expected, actual);
+		}
 
 		[Fact]
 		public async Task When_ListenIsCalled_Then_ItShouldAlsoBeAbleToSend()
